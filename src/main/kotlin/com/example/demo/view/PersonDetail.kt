@@ -1,11 +1,14 @@
 package com.example.demo.view
 
+import com.example.demo.controller.ClientController
+import com.example.demo.model.Account
+import com.example.demo.model.Client
 import javafx.scene.control.TableView
 import tornadofx.*
 
 class PersonDetail : View() {
-    val controller: PersonController by inject()
-//    var numbersTable: TableView<PhoneNumber> by singleAssign()
+    val controller: ClientController by inject()
+    var numbersTable: TableView<Account> by singleAssign()
 
     override val root = form {
         fieldset("Personal Information") {
@@ -20,21 +23,21 @@ class PersonDetail : View() {
         }
         fieldset("Phone Numbers") {
             vbox(5.0) {
-//                tableview<PhoneNumber> {
-//                    numbersTable = this
-//                    isEditable = true
-//                    smartResize()
-//                    column("Country code", PhoneNumber::countryCodeProperty).makeEditable()
-//                    column("Number", PhoneNumber::numberProperty).makeEditable()
-//                    itemsProperty().bind(controller.selectedPerson.phoneNumbers)
-//                }
+                tableview<Account> {
+                    numbersTable = this
+                    isEditable = true
+                    smartResize()
+                    column("Type", Account::typeProperty).makeEditable()
+                    column("Balance", Account::balanceProperty).makeEditable()
+                    itemsProperty().bind(controller.selectedPerson.accounts)
+                }
                 button("Add number") {
-//                    setOnAction {
-//                        val newNumber = PhoneNumber("", "")
-//                        controller.selectedPerson.phoneNumbers.value.add(newNumber)
-//                        numbersTable.selectionModel.select(newNumber)
-//                        numbersTable.edit(numbersTable.items.size - 1, numbersTable.columns.first())
-//                    }
+                    setOnAction {
+                        val newNumber = Account("", "")
+                        controller.selectedPerson.accounts.value.add(newNumber)
+                        numbersTable.selectionModel.select(newNumber)
+                        numbersTable.edit(numbersTable.items.size - 1, numbersTable.columns.first())
+                    }
                 }
             }
         }

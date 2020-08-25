@@ -19,7 +19,7 @@ class Styles : Stylesheet() {
             fontWeight = FontWeight.BOLD
         }
         s(form) {
-            padding = box(25.px)
+//            padding = box(25.px)
             prefWidth = 450.px
 
             s(zip) {

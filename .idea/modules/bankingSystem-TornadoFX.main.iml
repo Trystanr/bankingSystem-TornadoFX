@@ -25,6 +25,9 @@
         </compilerArguments>
       </configuration>
     </facet>
+    <facet type="TornadoFX" name="TornadoFX">
+      <configuration />
+    </facet>
   </component>
   <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/../../build/classes/java/main" />
