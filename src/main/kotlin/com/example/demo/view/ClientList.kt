@@ -3,6 +3,7 @@ package com.example.demo.view
 import com.example.demo.controller.ClientController
 import com.example.demo.model.Client
 import com.example.demo.model.ClientModel
+import javafx.collections.FXCollections
 import tornadofx.*
 
 class ClientList : View("My View") {
@@ -10,28 +11,43 @@ class ClientList : View("My View") {
 
     override val root = borderpane() {
         top {
-            form {
-                hbox {
-                    val t = textfield("Name or ID")
+            hbox(spacing = 10) {
 
-                    button("Filter List") {
-                        setOnAction {
-                            controller.filterBy(t.text.toString())
-                        }
-                    }
+                style {
+                    padding = box(0.px, 0.px, 10.px, 0.px)
+                }
 
-                    button("Clear Filter") {
-                        setOnAction {
-                            controller.filterRemove()
+                val t = textfield("")
+
+                val filterTypes = FXCollections.observableArrayList(
+                        "Name",
+                        "ID Number"
+                )
+
+                val c = combobox(values = filterTypes)
+
+                button("Filter List") {
+                    setOnAction {
+                        if (c.value !== null) {
+                            controller.filterBy(t.text.toString(), c.value)
                         }
                     }
                 }
+
+                button("Clear Filter") {
+                    setOnAction {
+                        t.text = ""
+                        controller.filterRemove()
+                    }
+                }
+
             }
         }
         center {
             tableview(controller.people) {
                 column("Id", Client::idProperty)
                 column("Name", Client::nameProperty)
+                column("ID Number", Client::identityProperty)
                 bindSelected(controller.selectedPerson)
                 smartResize()
             }
@@ -41,6 +57,11 @@ class ClientList : View("My View") {
         }
         bottom {
             hbox(spacing = 10) {
+
+                style {
+                    padding = box(10.px, 0.px, 0.px, 0.px)
+                }
+
                 button("Add Customer").action {
 
                     // Create a new model and set some default values
@@ -54,19 +75,21 @@ class ClientList : View("My View") {
                     val newScope = Scope(newPerson)
 
                     // Find the PersonEditor in the new scope and open a modal - wait for the result
-                    find<PersonEditorModal>(newScope).openModal(block = true)
+                    find<ClientEditorModal>(newScope).openModal(block = true)
 
-                    controller.people.add(newPerson.item)
-                }
+                    println(newPerson.item.name)
 
-                button("Print Clients") {
-                    setOnAction {
-//                        controller.getClientByID("52")
+                    if (newPerson.item.name !== null ) {
+                        controller.people.add(newPerson.item)
                     }
                 }
 
+                button("Print All").action {
+                    controller.printAll()
+                }
 
-            }
+
+                }
 
         }
     }

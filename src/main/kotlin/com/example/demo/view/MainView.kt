@@ -8,6 +8,6 @@ class MainView : View("Banking System") {
 
     override val root = hbox {
         add<ClientList>()
-        add<PersonEditor>()
+        add<ClientEditor>()
     }
 }

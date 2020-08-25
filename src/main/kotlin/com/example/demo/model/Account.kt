@@ -4,7 +4,10 @@ import tornadofx.ItemViewModel
 import tornadofx.getProperty
 import tornadofx.property
 
-class Account(type: String, balance: String) {
+class Account(id: Int, type: String, balance: Float) {
+    var id by property(id)
+    fun idProperty() = getProperty(Account::id)
+
     var type by property(type)
     fun typeProperty() = getProperty(Account::type)
 
@@ -12,7 +15,14 @@ class Account(type: String, balance: String) {
     fun balanceProperty() = getProperty(Account::balance)
 }
 
-class AccountModel : ItemViewModel<Account>(Account("gold", "100")) {
+class AccountModel : ItemViewModel<Account>(Account(0,"Gold Cheque", 0.0f)) {
+    val id = bind(Account::idProperty)
+    val type = bind(Account::typeProperty)
+    val balance = bind(Account::balanceProperty)
+}
+
+class AccountDetailModel : ItemViewModel<Account>(Account(0,"Gold Cheque", 0.0f)) {
+    val id = bind(Account::idProperty)
     val type = bind(Account::typeProperty)
     val balance = bind(Account::balanceProperty)
 }

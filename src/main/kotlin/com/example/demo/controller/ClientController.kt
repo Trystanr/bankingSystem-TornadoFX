@@ -1,5 +1,7 @@
 package com.example.demo.controller
 
+import com.example.demo.model.Account
+import com.example.demo.model.AccountDetailModel
 import com.example.demo.model.Client
 import com.example.demo.model.ClientDetailModel
 import javafx.beans.property.Property
@@ -10,6 +12,7 @@ class ClientController: Controller() {
     //    val people = FXCollections.observableArrayList<Client>()
     val people = SortedFilteredList<Client>()
     val selectedPerson = ClientDetailModel()
+    val selectedAccount = AccountDetailModel()
 
 
     init {
@@ -20,7 +23,10 @@ class ClientController: Controller() {
         p.identity = "0012545063081"
         p.name = "Mr Lahey"
 
+
         people.add(p)
+
+
     }
 
     fun getClientIndexByID(id: Int) :Int {
@@ -41,16 +47,46 @@ class ClientController: Controller() {
         }
     }
 
+    fun getNewAccountID() : Int {
+        return if (selectedPerson.accounts.value.size > 0) {
+            // Gets the length of the user ID and subtracts user ID from the previous account ID
+
+            val userIDLen = selectedPerson.id.value.toString().length
+            val i = selectedPerson.accounts.value.last().id.toString().removeRange(0,userIDLen)
+            val n = i.toInt() + 1
+
+            ((selectedPerson.id.value).toString() + (n).toString()).toInt()
+        } else {
+            ((selectedPerson.id.value).toString() + (0).toString()).toInt()
+        }
+    }
+
     fun deleteClientByID(id: Property<Number>) {
         people.removeAt(getClientIndexByID(id.value.toInt()))
     }
 
-    fun filterBy(s: String) {
-        people.predicate = { it.name.contains(s)}
+    fun filterBy(s: String, field: String) {
+        if (field == "Name") {
+            people.predicate = { it.name.contains(s)}
+        } else if (field == "ID Number") {
+            people.predicate = { it.identity.contains(s)}
+        } else {
+            filterRemove()
+        }
     }
 
     fun filterRemove() {
         people.predicate = { it.name.contains("") }
+        people.predicate = { it.identity.contains("") }
+    }
+
+    fun printAll() {
+        for (person in people) {
+            println(person.name)
+            for (account in person.accounts) {
+                println("  "+account.balance)
+            }
+        }
     }
 
 }
