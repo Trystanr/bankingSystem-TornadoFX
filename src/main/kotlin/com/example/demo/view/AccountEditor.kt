@@ -2,6 +2,7 @@ package com.example.demo.view
 
 import com.example.demo.controller.ClientController
 import com.example.demo.model.DepositModel
+import com.example.demo.model.TransferModel
 import javafx.scene.control.Alert
 import javafx.scene.control.ButtonBar
 import tornadofx.*
@@ -104,7 +105,23 @@ class AccountEditor: View() {
 
             button("Transfer") {
                 action {
+                    val newTransfer = TransferModel()
+                    val newScope = Scope(newTransfer)
 
+                    find<AccountTransferModal>(newScope).openModal(block = true)
+
+                    if (controller.accountExists(newTransfer.item.accountID)) {
+                        println("The account does exist")
+
+                        if (controller.withdraw(controller.selectedAccount.id.value, newTransfer.item.amount)) {
+                            println("You can transfer the amount")
+
+                            controller.deposit(newTransfer.item.accountID, newTransfer.item.amount)
+                        }
+                    }
+
+                    println("Account: ${newTransfer.item.accountID}")
+                    println("Amount: ${newTransfer.item.amount}")
                 }
             }
         }

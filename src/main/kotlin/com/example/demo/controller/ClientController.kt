@@ -16,16 +16,6 @@ class ClientController: Controller() {
 
 
     init {
-        // Add some test persons for the demo
-
-//        val p = Client()
-//        p.id = 0
-//        p.identity = "0012545063081"
-//        p.name = "Mr Lahey"
-//
-//
-//        people.add(p)
-
 
     }
 
@@ -102,11 +92,21 @@ class ClientController: Controller() {
 
 
     fun deposit(accountID: Int, amount: Float) {
-        selectedPerson.accounts.value.forEachIndexed { index, account ->
-            if (account.id == accountID) {
-                selectedPerson.accounts.value[index].deposit(amount)
+//        selectedPerson.accounts.value.forEachIndexed { index, account ->
+//            if (account.id == accountID) {
+//                selectedPerson.accounts.value[index].deposit(amount)
+//            }
+//        }
+
+        for (person in people) {
+            println(person.name)
+            for (account in person.accounts) {
+                if (account.id == accountID) {
+                    account.deposit(amount)
+                }
             }
         }
+
     }
 
     fun withdraw(accountID: Int, amount: Float):Boolean {
@@ -119,6 +119,21 @@ class ClientController: Controller() {
 
                 if (bRes) {
                     selectedPerson.accounts.value[index].withdraw(amount)
+                }
+            }
+        }
+
+        return bRes
+    }
+
+    fun accountExists(accountID: Int): Boolean {
+        var bRes = false
+
+        for (person in people) {
+            println(person.name)
+            for (account in person.accounts) {
+                if (account.id == accountID) {
+                    bRes = true
                 }
             }
         }
