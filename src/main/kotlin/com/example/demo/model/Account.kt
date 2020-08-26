@@ -18,21 +18,25 @@ class Account(id: Int, type: String, balance: Float) {
     var transactionFee = 0.0f
     var annualInterestRate: Float = 0.0f
 
+    var isInit = false
 
     fun initValues() {
-        if (type == "Gold Cheque") {
-            freeTransactions = 10
-            transactionFee = 15.0f
-        } else if (type == "Diamond Cheque") {
-            freeTransactions = 30
-            transactionFee = 20.0f
-        } else if (type == "Tax Free Savings") {
-            transactionFee = 40.0f
-            annualInterestRate = 0.12f
-        } else {
-            // Easy Access Savings
-            transactionFee = 30.0f
-            annualInterestRate = 0.8f
+        if (!isInit) {
+            isInit = true
+            if (type == "Gold Cheque") {
+                freeTransactions = 10
+                transactionFee = 15.0f
+            } else if (type == "Diamond Cheque") {
+                freeTransactions = 30
+                transactionFee = 20.0f
+            } else if (type == "Tax Free Savings") {
+                transactionFee = 40.0f
+                annualInterestRate = 0.12f
+            } else {
+                // Easy Access Savings
+                transactionFee = 30.0f
+                annualInterestRate = 0.8f
+            }
         }
     }
 
@@ -46,6 +50,49 @@ class Account(id: Int, type: String, balance: Float) {
         val form = "%.2f".format(add)
         val newBal = "%.2f".format(form.toFloat()+balance)
         balance = newBal.toFloat()
+    }
+
+    fun deposit(amount: Float) {
+        println("Deposit ${amount}")
+
+        balance += amount
+    }
+
+    fun withdraw(amount: Float) {
+        initValues()
+
+
+
+        var newBal = balance
+
+        if (freeTransactions == 0) {
+            newBal -= transactionFee
+        } else {
+            if (freeTransactions == -1) {
+                newBal -= transactionFee
+            } else {
+                freeTransactions--
+            }
+            newBal -= amount
+        }
+
+        println("Free transactions left: ${freeTransactions}")
+        balance = newBal
+    }
+
+    fun resetTransactions() {
+        isInit = false
+        initValues()
+    }
+
+    fun canWithdraw(amount: Float):Boolean {
+        initValues()
+
+        if (balance - transactionFee - amount < 0) {
+            return false
+        } else {
+            return true
+        }
     }
 
 }

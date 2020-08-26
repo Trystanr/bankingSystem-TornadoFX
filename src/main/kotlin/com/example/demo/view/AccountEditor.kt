@@ -1,10 +1,9 @@
 package com.example.demo.view
 
 import com.example.demo.controller.ClientController
-import com.example.demo.model.ClientModel
 import com.example.demo.model.DepositModel
-import javafx.stage.Modality
-import javafx.stage.StageStyle
+import javafx.scene.control.Alert
+import javafx.scene.control.ButtonBar
 import tornadofx.*
 
 class AccountEditor: View() {
@@ -37,17 +36,68 @@ class AccountEditor: View() {
                         val newDeposit = DepositModel()
                         val newScope = Scope(newDeposit)
 
-                        find<DepositModal>(newScope).openModal(block = true)
+                        find<SingleValueModal>(newScope).openModal(block = true)
 
                         println(newDeposit.item.amount)
 
                         controller.deposit(controller.selectedAccount.id.value, newDeposit.item.amount)
+
+                        alert(
+                                type = Alert.AlertType.INFORMATION,
+                                header = "Successfully Deposited R${newDeposit.item.amount}",
+                                actionFn = {
+                                    btnType ->
+                                    if (btnType.buttonData == ButtonBar.ButtonData.OK_DONE) {
+                                        println("OK")
+                                    }
+                                }
+                        )
+
+
+
+
                     }
                 }
             }
 
             button("Withdraw") {
                 action {
+
+                    val newDeposit = DepositModel()
+                    val newScope = Scope(newDeposit)
+
+                    find<SingleValueModal>(newScope).openModal(block = true)
+
+                    println(newDeposit.item.amount)
+
+//                    controller.deposit(controller.selectedAccount.id.value, newDeposit.item.amount)
+
+                    if (controller.withdraw(controller.selectedAccount.id.value, newDeposit.item.amount)) {
+
+                        alert(
+                                type = Alert.AlertType.INFORMATION,
+                                header = "Successfully Withdrew R${newDeposit.item.amount}",
+                                actionFn = {
+                                    btnType ->
+                                    if (btnType.buttonData == ButtonBar.ButtonData.OK_DONE) {
+                                        println("OK")
+                                    }
+                                }
+                        )
+                    } else {
+                        alert(
+                                type = Alert.AlertType.ERROR,
+                                header = "Could Not Withdraw R${newDeposit.item.amount}",
+                                actionFn = {
+                                    btnType ->
+                                    if (btnType.buttonData == ButtonBar.ButtonData.OK_DONE) {
+                                        println("OK")
+                                    }
+                                }
+                        )
+                    }
+
+
 
                 }
             }

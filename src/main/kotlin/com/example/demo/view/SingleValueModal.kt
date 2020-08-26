@@ -3,7 +3,7 @@ package com.example.demo.view
 import com.example.demo.model.DepositModel
 import tornadofx.*
 
-class DepositModal: Fragment("Deposit") {
+class SingleValueModal: Fragment("Modal") {
     val dep: DepositModel by inject()
 
     override val root = form {
@@ -15,7 +15,7 @@ class DepositModal: Fragment("Deposit") {
                 }
             }
 
-            button("Deposit") {
+            button("Accept") {
                 isDefaultButton = true
                 action {
                     dep.commit {

@@ -95,6 +95,7 @@ class ClientController: Controller() {
             for (account in person.accounts) {
                 println("  "+account.balance)
                 account.generateInterest()
+                account.resetTransactions()
             }
         }
     }
@@ -103,9 +104,27 @@ class ClientController: Controller() {
     fun deposit(accountID: Int, amount: Float) {
         selectedPerson.accounts.value.forEachIndexed { index, account ->
             if (account.id == accountID) {
-                selectedPerson.accounts.value[index].balance += amount
+                selectedPerson.accounts.value[index].deposit(amount)
             }
         }
     }
+
+    fun withdraw(accountID: Int, amount: Float):Boolean {
+
+        var bRes = false
+
+        selectedPerson.accounts.value.forEachIndexed { index, account ->
+            if (account.id == accountID) {
+                bRes = selectedPerson.accounts.value[index].canWithdraw(amount)
+
+                if (bRes) {
+                    selectedPerson.accounts.value[index].withdraw(amount)
+                }
+            }
+        }
+
+        return bRes
+    }
+
 
 }

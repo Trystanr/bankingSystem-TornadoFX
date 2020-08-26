@@ -27,19 +27,23 @@ class ClientEditorModal : Fragment("Add Customer") {
             }
 
         }
-        button("Save and close") {
-            isDefaultButton = true
-            action {
-                person.commit {
+
+        hbox(spacing = 10) {
+            button("Save and close") {
+                isDefaultButton = true
+                action {
+                    person.commit {
+                        close()
+                    }
+                }
+            }
+
+            button("Cancel") {
+                action {
                     close()
                 }
             }
         }
 
-        button("Cancel") {
-            action {
-                close()
-            }
-        }
     }
 }
