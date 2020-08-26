@@ -18,13 +18,13 @@ class ClientController: Controller() {
     init {
         // Add some test persons for the demo
 
-        val p = Client()
-        p.id = 0
-        p.identity = "0012545063081"
-        p.name = "Mr Lahey"
-
-
-        people.add(p)
+//        val p = Client()
+//        p.id = 0
+//        p.identity = "0012545063081"
+//        p.name = "Mr Lahey"
+//
+//
+//        people.add(p)
 
 
     }
@@ -43,7 +43,7 @@ class ClientController: Controller() {
         if (people.size > 0) {
             return people.last().id + 1
         } else {
-            return 0
+            return 1
         }
     }
 
@@ -57,7 +57,7 @@ class ClientController: Controller() {
 
             ((selectedPerson.id.value).toString() + (n).toString()).toInt()
         } else {
-            ((selectedPerson.id.value).toString() + (0).toString()).toInt()
+            ((selectedPerson.id.value).toString() + (1).toString()).toInt()
         }
     }
 
@@ -85,6 +85,25 @@ class ClientController: Controller() {
             println(person.name)
             for (account in person.accounts) {
                 println("  "+account.balance)
+            }
+        }
+    }
+
+    fun generateMonthlyInterest() {
+        for (person in people) {
+            println(person.name)
+            for (account in person.accounts) {
+                println("  "+account.balance)
+                account.generateInterest()
+            }
+        }
+    }
+
+
+    fun deposit(accountID: Int, amount: Float) {
+        selectedPerson.accounts.value.forEachIndexed { index, account ->
+            if (account.id == accountID) {
+                selectedPerson.accounts.value[index].balance += amount
             }
         }
     }

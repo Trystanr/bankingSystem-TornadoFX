@@ -24,7 +24,7 @@ class Styles : Stylesheet() {
 
             s(zip) {
                 maxWidth = 60.px
-                minWidth = maxWidth
+//                minWidth = maxWidth
             }
         }
     }

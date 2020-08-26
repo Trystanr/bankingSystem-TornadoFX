@@ -84,8 +84,8 @@ class ClientList : View("My View") {
                     }
                 }
 
-                button("Print All").action {
-                    controller.printAll()
+                button("Generate Monthly Interest").action {
+                    controller.generateMonthlyInterest()
                 }
 
 

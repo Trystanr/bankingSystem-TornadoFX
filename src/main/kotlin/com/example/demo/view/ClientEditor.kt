@@ -4,6 +4,8 @@ import com.example.demo.controller.ClientController
 import com.example.demo.model.Account
 import com.example.demo.model.AccountModel
 import com.example.demo.model.ClientModel
+import javafx.geometry.HPos
+import javafx.geometry.Pos
 import javafx.scene.control.TableView
 import javafx.scene.control.TextField
 
@@ -41,6 +43,9 @@ class ClientEditor : View() {
                     }
                 }
                 button("Delete") {
+                    style {
+                        alignment = Pos.BASELINE_RIGHT
+                    }
                     setOnAction {
                         if (controller.selectedPerson.id.value !== null) {
                             controller.deleteClientByID(controller.selectedPerson.id)
@@ -56,7 +61,7 @@ class ClientEditor : View() {
                 tableview<Account> {
                     accountsTable = this
                     isEditable = false
-                    smartResize()
+//                    smartResize()
                     column("ID", Account::idProperty)
                     column("Type", Account::typeProperty)
                     column("Balance", Account::balanceProperty)
@@ -65,18 +70,19 @@ class ClientEditor : View() {
                 }
                 button("Add account") {
                     setOnAction {
+                        if (controller.selectedPerson.id.value !== null) {
+                            val newAccount = AccountModel()
 
-                        val newAccount = AccountModel()
+                            newAccount.id.value = controller.getNewAccountID()
 
-                        newAccount.id.value = controller.getNewAccountID()
+                            val newScope = Scope(newAccount)
 
-                        val newScope = Scope(newAccount)
+                            find<AccountEditorModal>(newScope).openModal(block = true)
 
-                        find<AccountEditorModal>(newScope).openModal(block = true)
-
-                        controller.selectedPerson.accounts.value.add(newAccount.item)
+                            controller.selectedPerson.accounts.value.add(newAccount.item)
 //                        accountsTable.selectionModel.select(newAccount.item)
 //                        accountsTable.edit(accountsTable.items.size - 1, accountsTable.columns.first())
+                        }
                     }
                 }
             }
