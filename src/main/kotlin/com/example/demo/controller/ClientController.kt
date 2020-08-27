@@ -92,6 +92,7 @@ class ClientController: Controller() {
 
 
     fun deposit(accountID: Int, amount: Float) {
+        // Old code only allowed a single user
 //        selectedPerson.accounts.value.forEachIndexed { index, account ->
 //            if (account.id == accountID) {
 //                selectedPerson.accounts.value[index].deposit(amount)
