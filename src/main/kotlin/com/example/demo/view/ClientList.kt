@@ -7,9 +7,9 @@ import javafx.collections.FXCollections
 import tornadofx.*
 
 class ClientList : View("My View") {
-    val controller: ClientController by inject()
+    private val controller: ClientController by inject()
 
-    override val root = borderpane() {
+    override val root = borderpane {
         top {
             hbox(spacing = 10) {
 

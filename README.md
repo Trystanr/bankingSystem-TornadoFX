@@ -5,7 +5,11 @@
 <p align="center">
 
   <h3 align="center">TornadoFX Banking System</h3>
-
+   
+  <a href="https://github.com/Trystanr/bankingSystem-TornadoFX">
+      <img src="Images/Screenshot.png" alt="Logo" width="600">
+    </a>
+   
   <p align="center">
     Manage your banking clients with this system.
     <br />

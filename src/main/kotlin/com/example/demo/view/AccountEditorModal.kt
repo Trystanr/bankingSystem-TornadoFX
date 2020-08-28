@@ -6,7 +6,7 @@ import tornadofx.*
 import java.text.DecimalFormat
 
 class AccountEditorModal : Fragment("Add Customer") {
-    val account: AccountModel by inject()
+    private val account: AccountModel by inject()
 
     override val root = form {
         fieldset {

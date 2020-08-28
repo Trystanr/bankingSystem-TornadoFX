@@ -3,19 +3,13 @@ package com.example.demo.view
 import com.example.demo.controller.ClientController
 import com.example.demo.model.Account
 import com.example.demo.model.AccountModel
-import com.example.demo.model.ClientModel
-import javafx.geometry.HPos
 import javafx.geometry.Pos
 import javafx.scene.control.TableView
-import javafx.scene.control.TextField
-
-//import no.tornadofx.fxsamples.withfxproperties.model.PhoneNumber
 import tornadofx.*
-import java.text.DecimalFormat
 
 class ClientEditor : View() {
-    val controller: ClientController by inject()
-    var accountsTable: TableView<Account> by singleAssign()
+    private val controller: ClientController by inject()
+    private var accountsTable: TableView<Account> by singleAssign()
 
     override val root = form {
         fieldset("Personal Information") {

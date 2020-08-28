@@ -5,7 +5,7 @@ import tornadofx.*
 import java.text.DecimalFormat
 
 class ClientEditorModal : Fragment("Add Customer") {
-    val person: ClientModel by inject()
+    private val person: ClientModel by inject()
 
     override val root = form {
         fieldset {

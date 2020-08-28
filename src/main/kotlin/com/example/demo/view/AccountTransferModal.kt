@@ -5,7 +5,7 @@ import tornadofx.*
 
 
 class AccountTransferModal: Fragment("Transfer") {
-    val trans: TransferModel by inject()
+    private val trans: TransferModel by inject()
 
     override val root = form {
         fieldset {

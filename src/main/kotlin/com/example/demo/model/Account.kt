@@ -5,37 +5,42 @@ import tornadofx.getProperty
 import tornadofx.property
 
 class Account(id: Int, type: String, balance: Float) {
-    var id by property(id)
+    var id: Int by property(id)
     fun idProperty() = getProperty(Account::id)
 
-    var type by property(type)
+    private var type: String by property(type)
     fun typeProperty() = getProperty(Account::type)
 
-    var balance by property(balance)
+    var balance: Float by property(balance)
     fun balanceProperty() = getProperty(Account::balance)
 
-    var freeTransactions = -1
-    var transactionFee = 0.0f
-    var annualInterestRate: Float = 0.0f
+    private var freeTransactions = -1
+    private var transactionFee = 0.0f
+    private var annualInterestRate: Float = 0.0f
 
     var isInit = false
 
-    fun initValues() {
+    private fun initValues() {
         if (!isInit) {
             isInit = true
-            if (type == "Gold Cheque") {
-                freeTransactions = 10
-                transactionFee = 15.0f
-            } else if (type == "Diamond Cheque") {
-                freeTransactions = 30
-                transactionFee = 20.0f
-            } else if (type == "Tax Free Savings") {
-                transactionFee = 40.0f
-                annualInterestRate = 0.12f
-            } else {
-                // Easy Access Savings
-                transactionFee = 30.0f
-                annualInterestRate = 0.8f
+            when (type) {
+                "Gold Cheque" -> {
+                    freeTransactions = 10
+                    transactionFee = 15.0f
+                }
+                "Diamond Cheque" -> {
+                    freeTransactions = 30
+                    transactionFee = 20.0f
+                }
+                "Tax Free Savings" -> {
+                    transactionFee = 40.0f
+                    annualInterestRate = 0.12f
+                }
+                else -> {
+                    // Easy Access Savings
+                    transactionFee = 30.0f
+                    annualInterestRate = 0.8f
+                }
             }
         }
     }
@@ -53,7 +58,7 @@ class Account(id: Int, type: String, balance: Float) {
     }
 
     fun deposit(amount: Float) {
-        println("Deposit ${amount}")
+        println("Deposit $amount")
 
         balance += amount
     }
@@ -76,7 +81,7 @@ class Account(id: Int, type: String, balance: Float) {
             newBal -= amount
         }
 
-        println("Free transactions left: ${freeTransactions}")
+        println("Free transactions left: $freeTransactions")
         balance = newBal
     }
 
@@ -88,11 +93,7 @@ class Account(id: Int, type: String, balance: Float) {
     fun canWithdraw(amount: Float):Boolean {
         initValues()
 
-        if (balance - transactionFee - amount < 0) {
-            return false
-        } else {
-            return true
-        }
+        return (balance - transactionFee - amount >= 0)
     }
 
 }

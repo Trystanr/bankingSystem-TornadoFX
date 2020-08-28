@@ -9,7 +9,7 @@ import tornadofx.*
 
 class AccountEditor: View() {
 
-    val controller: ClientController by inject()
+    private val controller: ClientController by inject()
 
     override val root = vbox {
         field("ID") {

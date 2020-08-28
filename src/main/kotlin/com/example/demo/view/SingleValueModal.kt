@@ -4,7 +4,7 @@ import com.example.demo.model.DepositModel
 import tornadofx.*
 
 class SingleValueModal: Fragment("Modal") {
-    val dep: DepositModel by inject()
+    private val dep: DepositModel by inject()
 
     override val root = form {
         fieldset {

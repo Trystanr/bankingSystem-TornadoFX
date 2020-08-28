@@ -1,6 +1,5 @@
 package com.example.demo.controller
 
-import com.example.demo.model.Account
 import com.example.demo.model.AccountDetailModel
 import com.example.demo.model.Client
 import com.example.demo.model.ClientDetailModel
@@ -9,17 +8,12 @@ import tornadofx.Controller
 import tornadofx.SortedFilteredList
 
 class ClientController: Controller() {
-    //    val people = FXCollections.observableArrayList<Client>()
+
     val people = SortedFilteredList<Client>()
     val selectedPerson = ClientDetailModel()
     val selectedAccount = AccountDetailModel()
 
-
-    init {
-
-    }
-
-    fun getClientIndexByID(id: Int) :Int {
+    private fun getClientIndexByID(id: Int) :Int {
         var i = -1
         people.forEachIndexed { index, client ->
             if (client.id == id) {
@@ -30,10 +24,10 @@ class ClientController: Controller() {
     }
 
     fun getNewClientID() : Int {
-        if (people.size > 0) {
-            return people.last().id + 1
+        return if (people.size > 0) {
+            people.last().id + 1
         } else {
-            return 1
+            1
         }
     }
 
@@ -56,12 +50,16 @@ class ClientController: Controller() {
     }
 
     fun filterBy(s: String, field: String) {
-        if (field == "Name") {
-            people.predicate = { it.name.contains(s)}
-        } else if (field == "ID Number") {
-            people.predicate = { it.identity.contains(s)}
-        } else {
-            filterRemove()
+        when (field) {
+            "Name" -> {
+                people.predicate = { it.name.contains(s)}
+            }
+            "ID Number" -> {
+                people.predicate = { it.identity.contains(s)}
+            }
+            else -> {
+                filterRemove()
+            }
         }
     }
 
