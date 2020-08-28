@@ -26,7 +26,7 @@ class ClientModel : ItemViewModel<Client>(Client()) {
     val id = bind(Client::idProperty)
     val name = bind(Client::nameProperty)
     val identity = bind(Client::identityProperty)
-//    val accounts = bind(Client::accountProperty)
+    val accounts = bind(Client::accountProperty)
 }
 
 class ClientDetailModel : ItemViewModel<Client>() {
